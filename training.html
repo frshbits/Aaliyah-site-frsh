@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Training — Aaliyah Pryce</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Inter+Tight:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0E0E0E;
+    --bg-deep: #080808;
+    --ink: #F5F1EA;
+    --ink-dim: #9A938A;
+    --rule: #2A2725;
+    --accent: #C9A96A;
+    --display: 'Fraunces', serif;
+    --body: 'Inter Tight', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection { background: var(--accent); color: var(--bg); }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 28px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(14, 14, 14, 0.72);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(245, 241, 234, 0.06);
+  }
+
+  .monogram {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+
+  .nav-links a {
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 400;
+    position: relative;
+    padding: 4px 0;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 1px;
+    background: var(--ink);
+    transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .nav-links a:hover::after,
+  .nav-links a.active::after { width: 100%; }
+
+  /* PAGE HEAD */
+  .page-head {
+    padding: 180px 48px 80px;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+  }
+
+  .page-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    opacity: 0;
+    animation: fadeUp 1.2s 0.2s ease forwards;
+  }
+
+  .page-eyebrow::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .page-head h1 {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(72px, 10vw, 180px);
+    line-height: 0.88;
+    letter-spacing: -0.035em;
+    opacity: 0;
+    animation: fadeUp 1.4s 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  .page-head h1 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 300;
+  }
+
+  .page-intro {
+    padding-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 1.2s 0.7s ease forwards;
+  }
+
+  .page-intro p {
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--ink-dim);
+    max-width: 480px;
+  }
+
+  .page-intro p strong {
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTION BASE */
+  section { padding: 120px 48px; position: relative; }
+
+  .section-inner { max-width: 1400px; margin: 0 auto; }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-bottom: 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  /* TRAINING TIMELINE */
+  .training {
+    background: var(--bg);
+  }
+
+  .training-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 80px;
+    gap: 48px;
+  }
+
+  .training-header h2 {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(56px, 7vw, 112px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+  }
+
+  .training-header h2 em { font-style: italic; color: var(--accent); }
+
+  .training-meta {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    text-align: right;
+    line-height: 2;
+    flex-shrink: 0;
+  }
+
+  .training-meta strong {
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  .training-list {
+    border-top: 1px solid var(--rule);
+  }
+
+  .training-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 200px;
+    gap: 64px;
+    padding: 40px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+    transition: padding-left 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.3s ease;
+  }
+
+  .training-row:hover {
+    padding-left: 16px;
+    background: var(--bg-deep);
+  }
+
+  .training-period {
+    font-family: var(--body);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  .training-detail h3 {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin-bottom: 12px;
+  }
+
+  .training-detail h3 em { font-style: italic; color: var(--accent); }
+
+  .training-detail p {
+    font-size: 14px;
+    color: var(--ink-dim);
+    line-height: 1.6;
+    max-width: 480px;
+  }
+
+  .training-tag {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    text-align: right;
+  }
+
+  /* SKILLS GRID */
+  .skills {
+    background: var(--bg-deep);
+  }
+
+  .skills-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 80px;
+    gap: 48px;
+  }
+
+  .skills-header h2 {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(56px, 7vw, 112px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+  }
+
+  .skills-header h2 em { font-style: italic; color: var(--accent); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .skill-card {
+    padding: 48px 40px;
+    border-bottom: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+    transition: background 0.4s ease;
+    cursor: default;
+  }
+
+  .skill-card:nth-child(2n) { border-right: none; }
+
+  .skill-card:hover {
+    background: var(--bg);
+  }
+
+  .skill-number {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 24px;
+    color: var(--accent);
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .skill-name {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin-bottom: 16px;
+  }
+
+  .skill-name em { font-style: italic; color: var(--accent); }
+
+  .skill-desc {
+    font-size: 13px;
+    color: var(--ink-dim);
+    line-height: 1.65;
+    max-width: 380px;
+  }
+
+  /* ACCENTS */
+  .accents {
+    background: var(--bg);
+  }
+
+  .accents-header {
+    margin-bottom: 80px;
+  }
+
+  .accents-header h2 {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(56px, 7vw, 112px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+  }
+
+  .accents-header h2 em { font-style: italic; color: var(--accent); }
+
+  .accent-list {
+    border-top: 1px solid var(--rule);
+  }
+
+  .accent-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 32px;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--rule);
+    transition: padding-left 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.3s ease;
+    cursor: default;
+  }
+
+  .accent-row:hover {
+    padding-left: 16px;
+  }
+
+  .accent-row:hover .accent-name {
+    color: var(--accent);
+  }
+
+  .accent-name {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(28px, 3.5vw, 48px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    transition: color 0.3s ease;
+  }
+
+  .accent-tag {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    flex-shrink: 0;
+  }
+
+  .accent-tag.native {
+    color: var(--accent);
+  }
+
+  /* CTA */
+  .cta-strip {
+    border-top: 1px solid var(--rule);
+    padding: 120px 48px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 80px;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .cta-strip h2 {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+  }
+
+  .cta-strip h2 em { font-style: italic; color: var(--accent); }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+    padding: 22px 40px;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    background: transparent;
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .cta-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: -1;
+  }
+
+  .cta-button:hover {
+    border-color: var(--accent);
+    color: var(--bg);
+  }
+
+  .cta-button:hover::before { transform: translateY(0); }
+
+  .cta-button .arrow {
+    width: 24px; height: 1px;
+    background: currentColor;
+    position: relative;
+  }
+
+  .cta-button .arrow::after {
+    content: '';
+    position: absolute;
+    right: 0; top: -3px;
+    width: 7px; height: 7px;
+    border-right: 1px solid currentColor;
+    border-top: 1px solid currentColor;
+    transform: rotate(45deg);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 64px 48px 40px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 64px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  footer h3 {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+
+  footer p {
+    font-size: 13px;
+    color: var(--ink-dim);
+    line-height: 1.6;
+    max-width: 320px;
+  }
+
+  footer .col-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-bottom: 20px;
+  }
+
+  footer ul { list-style: none; }
+  footer ul li { margin-bottom: 10px; }
+
+  footer ul a {
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.3s;
+  }
+
+  footer ul a:hover { color: var(--accent); }
+
+  .footer-bottom {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--rule);
+    padding-top: 32px;
+    margin-top: 48px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    .nav-links { gap: 18px; }
+    .nav-links a { font-size: 10px; letter-spacing: 0.15em; }
+
+    .page-head {
+      padding: 140px 24px 48px;
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    section { padding: 80px 24px; }
+
+    .training-header,
+    .skills-header {
+      flex-direction: column;
+      align-items: start;
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .training-meta { text-align: left; }
+
+    .training-row {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      padding: 24px 0;
+    }
+    .training-row:hover { padding-left: 0; }
+    .training-tag { text-align: left; }
+
+    .skills-grid { grid-template-columns: 1fr; }
+    .skill-card {
+      border-right: none;
+      padding: 32px 24px;
+    }
+
+    .accent-row { padding: 24px 0; }
+    .accent-row:hover { padding-left: 0; }
+
+    .cta-strip { grid-template-columns: 1fr; gap: 40px; padding: 64px 24px; }
+    footer { grid-template-columns: 1fr; gap: 40px; padding: 48px 24px 32px; }
+    .footer-bottom { flex-direction: column; gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="home.html" class="monogram">Aaliyah Pryce</a>
+  <ul class="nav-links">
+    <li><a href="home.html">Home</a></li>
+    <li><a href="self-tapes.html">Self-Tapes</a></li>
+    <li><a href="#" class="active">Training</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HEAD -->
+<section class="page-head">
+  <div>
+    <div class="page-eyebrow">01 — Training</div>
+    <h1>Training<br/>&amp; <em>Education.</em></h1>
+  </div>
+  <div class="page-intro">
+    <p>
+      A foundation in <strong>naturalistic acting and the Stanislavski method</strong>, built across BTEC and HNC qualifications, drama school, and continuous studio training in London.
+    </p>
+  </div>
+</section>
+
+<!-- TRAINING TIMELINE -->
+<section class="training">
+  <div class="section-inner">
+    <div class="training-header">
+      <div>
+        <div class="section-label">02 — Education</div>
+        <h2>Schools <em>&amp; programmes.</em></h2>
+      </div>
+      <div class="training-meta">
+        Continuous training<br/>
+        <strong>London, UK</strong>
+      </div>
+    </div>
+
+    <div class="training-list">
+      <div class="training-row">
+        <span class="training-period">Ongoing</span>
+        <div class="training-detail">
+          <h3>College Arts <em>—</em> Continuous training</h3>
+          <p>Studio-based, scene work and audition technique. Continuous practice alongside professional auditioning.</p>
+        </div>
+        <span class="training-tag">Studio · Active</span>
+      </div>
+
+      <div class="training-row">
+        <span class="training-period">Drama School</span>
+        <div class="training-detail">
+          <h3>Identity School of Acting</h3>
+          <p>Method-based screen acting training. Focus on naturalistic performance, scene study, and self-tape craft.</p>
+        </div>
+        <span class="training-tag">Acting Conservatoire</span>
+      </div>
+
+      <div class="training-row">
+        <span class="training-period">HNC · Level 4</span>
+        <div class="training-detail">
+          <h3>City &amp; Islington College</h3>
+          <p>Higher National Certificate in Performing Arts. Deeper character work, ensemble practice, and devised performance.</p>
+        </div>
+        <span class="training-tag">Higher Education</span>
+      </div>
+
+      <div class="training-row">
+        <span class="training-period">BTEC · Level 3</span>
+        <div class="training-detail">
+          <h3>BCE College</h3>
+          <p>Foundation in performing arts. Acting technique, voice, movement, and stage practice.</p>
+        </div>
+        <span class="training-tag">Foundation</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills">
+  <div class="section-inner">
+    <div class="skills-header">
+      <div>
+        <div class="section-label">03 — Skills</div>
+        <h2>Craft <em>&amp; capability.</em></h2>
+      </div>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skill-card">
+        <span class="skill-number">01</span>
+        <h3 class="skill-name">Naturalistic <em>acting</em></h3>
+        <p class="skill-desc">Subtle, observed, camera-ready. Aaliyah's primary mode of work — the foundation everything else is built on.</p>
+      </div>
+
+      <div class="skill-card">
+        <span class="skill-number">02</span>
+        <h3 class="skill-name">Stanislavski <em>method</em></h3>
+        <p class="skill-desc">Trained in the system — emotional memory, given circumstances, objective and obstacle. Applied across screen and stage work.</p>
+      </div>
+
+      <div class="skill-card">
+        <span class="skill-number">03</span>
+        <h3 class="skill-name">Aerial <em>silks</em></h3>
+        <p class="skill-desc">Trained aerialist. A physical discipline that informs movement, presence, and on-set readiness for stunts and choreography.</p>
+      </div>
+
+      <div class="skill-card">
+        <span class="skill-number">04</span>
+        <h3 class="skill-name">Professionally <em>trained barista</em></h3>
+        <p class="skill-desc">Hospitality-trained. Useful for café and service-set scenes — and an honest day-job skill in the actor tradition.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACCENTS -->
+<section class="accents">
+  <div class="section-inner">
+    <div class="accents-header">
+      <div class="section-label">04 — Accents</div>
+      <h2>Voice <em>&amp; accents.</em></h2>
+    </div>
+
+    <div class="accent-list">
+      <div class="accent-row">
+        <span class="accent-name">London British</span>
+        <span class="accent-tag native">Native</span>
+      </div>
+      <div class="accent-row">
+        <span class="accent-name">General American</span>
+        <span class="accent-tag">Trained</span>
+      </div>
+      <div class="accent-row">
+        <span class="accent-name">Southern American</span>
+        <span class="accent-tag">Trained</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding: 0;">
+  <div class="cta-strip">
+    <h2>Looking to work <em>together?</em></h2>
+    <a href="contact.html" class="cta-button">
+      Get in touch
+      <span class="arrow"></span>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <h3>Aaliyah Pryce</h3>
+    <p>London-based screen actor. For all enquiries, please use the contact form.</p>
+  </div>
+  <div>
+    <div class="col-label">Explore</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="self-tapes.html">Self-Tapes</a></li>
+      <li><a href="#">Training</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="col-label">Materials</div>
+    <ul>
+      <li><a href="self-tapes.html#showreel">Showreel</a></li>
+      <li><a href="self-tapes.html#tapes">Self-Tapes</a></li>
+      <li><a href="#">CV / Resume</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="col-label">Elsewhere</div>
+    <ul>
+      <li><a href="#">Backstage</a></li>
+      <li><a href="#">Instagram</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Aaliyah Pryce · All rights reserved</span>
+    <span>Site by Frshbits</span>
+  </div>
+</footer>
+
+</body>
+</html>
